@@ -8,37 +8,40 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 
 @ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 public class AbstractIntegrationTest {
 
-	static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-		
-		static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.29");
-		
-		private static void startContainers() {
-			Startables.deepStart(Stream.of(mysql)).join();
-		}
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-		private static Map<String, String> createConnectionConfiguration() {
-			return Map.of(
-				"spring.datasource.url", mysql.getJdbcUrl(),
-				"spring.datasource.username", mysql.getUsername(),
-				"spring.datasource.password", mysql.getPassword()
-			);
-		}
-		
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		@Override
-		public void initialize(ConfigurableApplicationContext applicationContext) {
-			startContainers();
-			ConfigurableEnvironment environment = applicationContext.getEnvironment();
-			MapPropertySource testcontainers = new MapPropertySource(
-				"testcontainers",
-				(Map) createConnectionConfiguration());
-			environment.getPropertySources().addFirst(testcontainers);
-		}
-	}
+        static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+            //.withDatabaseName("testdb")
+            //.withUsername("testuser")
+            //.withPassword("testpassword");
+
+        private static void startContainers() {
+            Startables.deepStart(Stream.of(postgres)).join();
+        }
+
+        private static Map<String, String> createConnectionConfiguration() {
+            return Map.of(
+                "spring.datasource.url", postgres.getJdbcUrl(),
+                "spring.datasource.username", postgres.getUsername(),
+                "spring.datasource.password", postgres.getPassword()
+            );
+        }
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        @Override
+        public void initialize(ConfigurableApplicationContext applicationContext) {
+            startContainers();
+            ConfigurableEnvironment environment = applicationContext.getEnvironment();
+            MapPropertySource testcontainers = new MapPropertySource(
+                "testcontainers",
+                (Map) createConnectionConfiguration());
+            environment.getPropertySources().addFirst(testcontainers);
+        }
+    }
 }
