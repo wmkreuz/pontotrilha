@@ -139,9 +139,9 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
-					<url>jdbc:postgresql://localhost:5432/rest_with_spring_boot</url>
-					<user>postgres</user>
-					<password>admin123</password>
+					<url>jdbc:postgresql://dpg-cl2q9khnovjs73b63ah0-a:5432/rest_with_spring_boot</url>
+					<user>rest_with_spring_boot_user</user>
+					<password>yKAiyvYESYMpT1d7dUotaHBGr5AQSa8U</password>
 				</configuration>
 				
 			</plugin>

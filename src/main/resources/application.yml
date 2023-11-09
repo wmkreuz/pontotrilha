@@ -8,9 +8,9 @@ security:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/rest_with_spring_boot
-    username: postgres
-    password: admin123
+    url: jdbc:postgresql://dpg-cl2q9khnovjs73b63ah0-a:5432/rest_with_spring_boot
+    username: rest_with_spring_boot_user
+    password: yKAiyvYESYMpT1d7dUotaHBGr5AQSa8U
   jpa:
     hibernate:
       ddl-auto: none
