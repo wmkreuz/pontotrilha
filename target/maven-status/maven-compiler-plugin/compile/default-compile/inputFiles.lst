@@ -7,11 +7,13 @@ c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\er
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\model\Person.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\repositories\PersonRepository.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\data\vo\v1\PersonVO.java
+c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\repositories\UserPermissionRepository.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\exceptions\InvalidJwtAuthenticationException.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\services\BookServices.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\exceptions\ExceptionResponse.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\services\UserServices.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\model\Book.java
+c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\util\EncryptPassword.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\exceptions\RequiredObjectIsNullException.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\services\PersonServices.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\controllers\PersonController.java
@@ -24,6 +26,7 @@ c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\er
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\data\vo\v1\BookVO.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\repositories\BookRepository.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\config\SecurityConfig.java
+c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\model\UserPermission.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\controllers\BookController.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\controllers\AuthController.java
 c:\Users\willhan.kreuz\Documents\pontotrilha\pontotrilha\src\main\java\br\com\erudio\data\vo\v1\security\TokenVO.java

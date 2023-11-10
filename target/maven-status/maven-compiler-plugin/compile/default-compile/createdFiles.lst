@@ -19,14 +19,17 @@ br\com\erudio\services\BookServices.class
 br\com\erudio\exceptions\ResourceNotFoundException.class
 br\com\erudio\data\vo\v1\BookVO.class
 br\com\erudio\mapper\DozerMapper.class
+br\com\erudio\model\UserPermission.class
 br\com\erudio\data\vo\v1\PersonVO.class
 br\com\erudio\exceptions\handler\CustomizedResponseEntityExceptionHandler.class
 br\com\erudio\util\MediaType.class
 br\com\erudio\config\WebConfig.class
 br\com\erudio\services\AuthServices.class
 br\com\erudio\repositories\BookRepository.class
+br\com\erudio\repositories\UserPermissionRepository.class
 br\com\erudio\services\UserServices.class
 br\com\erudio\controllers\AuthController.class
+br\com\erudio\util\EncryptPassword.class
 br\com\erudio\controllers\PersonController.class
 br\com\erudio\exceptions\RequiredObjectIsNullException.class
 br\com\erudio\model\Book.class

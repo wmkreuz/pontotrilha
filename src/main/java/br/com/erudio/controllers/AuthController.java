@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.erudio.data.vo.v1.security.AccountCredentialsVO;
+import br.com.erudio.model.User;
 import br.com.erudio.services.AuthServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,6 +35,13 @@ public class AuthController {
 		if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		return token;
 	}
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping(value = "/signup")
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        authServices.signup(user);
+        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+    }
 	
 	@SuppressWarnings("rawtypes")
 	@Operation(summary = "Refresh token for authenticated user and returns a token")
