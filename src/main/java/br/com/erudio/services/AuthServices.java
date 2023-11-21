@@ -21,6 +21,7 @@ import br.com.erudio.config.SecurityConfig;
 import br.com.erudio.data.vo.v1.security.AccountCredentialsVO;
 import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
+import br.com.erudio.exceptions.UserAlreadyExistsException;
 import br.com.erudio.model.Permission;
 import br.com.erudio.model.User;
 import br.com.erudio.model.UserPermission;
@@ -69,13 +70,15 @@ public class AuthServices {
 		}
 	}
 
-	public void signup(User user) {
+	public User signup(User user) {
         if (user == null) throw new RequiredObjectIsNullException();
 
 		var userRet = repository.findByUsername(user.getUserName());
 
+		var userSave = new User();
+
 		if(userRet != null){
-			System.out.println("User with username '" + userRet.getUserName() + "' already exists");
+			throw new UserAlreadyExistsException("Username " + userRet.getUserName() + " already exists!");
 		} else {
 			
 			if (user.getUserName() != null && user.getPassword() != null) {
@@ -83,11 +86,7 @@ public class AuthServices {
 
 				var password = user.getPassword();
 
-				System.out.println(password);
-
 				EncryptPassword encryptPassword = new EncryptPassword();
-
-				System.out.println(encryptPassword.encrypt(password));
         	
 				user.setPassword(encryptPassword.encrypt(password));
 				user.setEnabled(true);
@@ -96,7 +95,7 @@ public class AuthServices {
     			user.setCredentialsNonExpired(true);
 				repository.save(user);
 
-				var userSave = repository.findByUsername(user.getUserName());
+				userSave = repository.findByUsername(user.getUserName());
 
 				UserPermission userPermission = new UserPermission();
 
@@ -105,8 +104,9 @@ public class AuthServices {
         	
 				userPermissionRepository.save(userPermission);
 			}
-		
+			
 		}
+		return userSave;
 		
     }
 	

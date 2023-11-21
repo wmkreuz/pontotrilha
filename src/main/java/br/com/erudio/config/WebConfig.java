@@ -59,6 +59,8 @@ public class WebConfig implements WebMvcConfigurer{
 			.mediaType("json", MediaType.APPLICATION_JSON)
 			.mediaType("xml", MediaType.APPLICATION_XML)
 			.mediaType("x-yaml", MEDIA_TYPE_APPLICATION_YML)
+			.mediaType("octet-stream", MediaType.APPLICATION_OCTET_STREAM)
+			.mediaType("form-data", MediaType.MULTIPART_FORM_DATA)
 			;
 	}
 

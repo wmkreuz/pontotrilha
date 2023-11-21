@@ -1,5 +1,7 @@
 package br.com.erudio.controllers;
 
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.erudio.data.vo.v1.security.AccountCredentialsVO;
 import br.com.erudio.model.User;
 import br.com.erudio.services.AuthServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Tag(name = "Authentication Endpoint")
 @RestController
@@ -36,11 +40,12 @@ public class AuthController {
 		return token;
 	}
 
+
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/signup")
-    public ResponseEntity<String> signup(@RequestBody User user) {
-        authServices.signup(user);
-        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+    public ResponseEntity signup(@RequestBody User data) {
+        authServices.signup(data);
+		return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 	
 	@SuppressWarnings("rawtypes")

@@ -14,6 +14,7 @@ import br.com.erudio.exceptions.ExceptionResponse;
 import br.com.erudio.exceptions.InvalidJwtAuthenticationException;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
+import br.com.erudio.exceptions.UserAlreadyExistsException;
 
 @ControllerAdvice
 @RestController
@@ -65,6 +66,18 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				request.getDescription(false));
 		
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public final ResponseEntity<ExceptionResponse> handleUserAlreadyExistsException(
+			Exception ex, WebRequest request) {
+		
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
 	}
 
 }

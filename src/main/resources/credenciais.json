@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "ponto-trilha",
+  "private_key_id": "57496580f10a0ffa224bb60e910f4db194da6afc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCjhA2VJhh+tlal\nguZkbIlHZ87mpigWyFLpHQuMBz5aqlkoB4qI83jio3XxgXBF7/EvNBJF9PJ595aA\nVQrp7CBjRTlPj+ww5txgKt5VwfLWGCBJAhC76yY3e5Taf8K9mmiWecRuvOY/gEJM\nzmLUBQZOVkVIeEWR/ZowE1j17TGb2PEJ1+Kr/eitl0eskmvyEqcY3TlTLSqEQAS1\ns8Lni+FiiR4fENz0jIVRfL4OHvAKkX0erDvP9c7InZ7LuTje5QUOaUQY7sbNx4HF\nzXRFy2ellsMYZNtovHVm3ef2VXxJ52vdyN/8GI8y9qw9YBGMMZbrPWCC+mt2yyNw\nQ4a93A+FAgMBAAECggEAA/rRZiVVTco20tRG3WqwhFV6uULnMWIX9dawOAIvdT9K\n/bjXQ+zhxD8Jvm0cfttE7Grw8epxDLZnCkG89a4P/hKKf0z9COtUMZ6sJtFaYssX\nXWeIjDuq2bQEjrUy18YJEHaEvn7oVLh/WfALrZDfaICG3altugypLXffFQHm+0hz\nCVT81qltNtm+/QQ44lf8iXud8eyTs07soM0ryU+j3QNOVQhj7BcUHD6qWYeNPLsE\nz7TNULWjEdTH/ujzn1+pOVU/429IkiW1xSC0Q7dCfOHm/z95l2wHS+goAi8aa7ix\n6moqUJdMFpBBB5tosYKHE16lt6+s+vkqRH0WKNTduQKBgQDa4NKC5u74mQTxU2F8\nDtZJ/BRlSXZzXpyq02ubuhcAIFeeD6HsbO1kZC32bdF+ONmsBKGYijN+0v8Iu1Fx\nkqPkRz8Es5r4T1Y1w9OSIi9A3e0uKeWe+OI5hZwIMVp7ezzZZpsojabmUal+3Hv8\nYeLs60BxbAt2v8+Rpup5m4cUWQKBgQC/P4a7Ih1+5swdK7Ka0NAvB3DgTx+eKysg\nCxspJX9IstiErHCy501aF0XG6a1WK0kfj2W6QuQlHOW5z1xPt+ZafVeojl9mvwXR\n4pO7vZX+STz5VgveBD/RWXzXmLhNKc7O5n6ODMd+qn3bzaljN9Ve+PUYjN935N+v\nbSQlIKtfDQKBgQCzBliowQKNS3uDd9OwiOI1OX3lKqU70BMMlkjZ4ueVLt77ZYXn\nv2CcUGRXv5MuTomb7V3PSpq8DRCUr8H5xxtOSAf/bHhAyYOWDkoqqNNFlz+8FoC9\n+ovuyJ3LBbMgdLhciVQ3Y0Uz9W9RWD4BPH9DkVfwbZMi2diJJaF7Pf7KYQKBgQCP\nXqY4H0kRWx/lNl78ZFHND7z0yxwezKnVqb3AyNV0wG5Ed6k81N1ODmhGx+Mj1+tH\nd46BZaf2koU9GFBRisFrUM+oEqM+OTG5uCub8HJDYNAO8wyOcY0N+hH25gwz/IWG\n4ZA6GSZstI8JelHjiXWxbtz+fI0CKlfuANm545XU+QKBgFbLDw+MmP1SxhseBVtr\nl4upNpU5f2pyqYx5KXomMCqW/1flXuPB7XdBU1KBA26Kz6IkrUKzCFCXDRrQ0i5P\nOi2Uisrx30ZjRovGjHaabgoouuHhn0HGhwXqRoU6yEGSlGQmDelMvELz2Q/ru8n2\nf+hCRNKEwEVXNb8xmaa6iVLQ\n-----END PRIVATE KEY-----\n",
+  "client_email": "ponto-trilha@ponto-trilha.iam.gserviceaccount.com",
+  "client_id": "109604837755625552884",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ponto-trilha%40ponto-trilha.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
