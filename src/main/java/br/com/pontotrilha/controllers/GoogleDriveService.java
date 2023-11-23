@@ -23,9 +23,17 @@ public class GoogleDriveService {
     private Drive drive;
 
     public GoogleDriveService() throws IOException, GeneralSecurityException {
-        FileInputStream credentialsFile = new FileInputStream("src/main/resources/credenciais.json");
+        /*
+         * FileInputStream credentialsFile = new
+         * FileInputStream("src/main/resources/credenciais.json");
+         * 
+         * GoogleCredentials credentials =
+         * ServiceAccountCredentials.fromStream(credentialsFile)
+         * .createScoped(Collections.singleton(DriveScopes.DRIVE));
+         */
 
-        GoogleCredentials credentials = ServiceAccountCredentials.fromStream(credentialsFile)
+        InputStream credentialsStream = getClass().getResourceAsStream("/credenciais.json");
+        GoogleCredentials credentials = ServiceAccountCredentials.fromStream(credentialsStream)
                 .createScoped(Collections.singleton(DriveScopes.DRIVE));
 
         this.drive = new Drive.Builder(
