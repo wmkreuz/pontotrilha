@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/api/files/v1")
@@ -24,12 +25,15 @@ public class FileController {
     @Autowired
     private GoogleDriveService googleDriveService;
 
+  
+
     @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
     @Operation(summary = "Upload a file to Google Drive")
     @PostMapping
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             File uploadedFile = googleDriveService.createFile(file.getOriginalFilename(), file.getBytes());
+            System.out.println(uploadedFile.getWebViewLink());
             return uploadedFile.getId();
         } catch (IOException e) {
             return "Error uploading file";
@@ -45,7 +49,7 @@ public class FileController {
 
             if (fileContent != null) {
                 ByteArrayResource resource = new ByteArrayResource(fileContent);
-
+                System.out.println(resource.getInputStream());
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileId)
                         .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -58,6 +62,28 @@ public class FileController {
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+    @Operation(summary = "Get file content from Google Drive")
+    @GetMapping("/content/{fileId}")
+    public ResponseEntity<String> getFileContent(@PathVariable String fileId) {
+        try {
+            byte[] fileContent = googleDriveService.downloadFile(fileId);
+
+            if (fileContent != null) {
+                String content = new String(fileContent, StandardCharsets.UTF_8);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .body(content);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
         }
     }
 
