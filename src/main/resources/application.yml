@@ -27,3 +27,5 @@ springdoc:
     - /api/**/v1/**
   swagger-ui:
     use-root-path: true
+stripe:
+  apiKey: sk_test_51OG5npFF9KWdqQjozREfYxZqRUVCQjfqIx9TpgygIpFXjXFBtZIxFMIL1iLcuQDsKkPAotDQBDdwh4G6rotqtcjY0013WNdPPj

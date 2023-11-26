@@ -35,6 +35,9 @@ public class Event implements Serializable {
 	private String neighborhood;
 
 	@Column(nullable = false, length = 255)
+	private String number;
+
+	@Column(nullable = false, length = 255)
 	private String city;
 
 	@Column(nullable = false, length = 255)
@@ -273,6 +276,14 @@ public class Event implements Serializable {
 		this.map = map;
 	}
 
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -281,6 +292,7 @@ public class Event implements Serializable {
 		result = prime * result + ((locationName == null) ? 0 : locationName.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		result = prime * result + ((neighborhood == null) ? 0 : neighborhood.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
@@ -330,6 +342,11 @@ public class Event implements Serializable {
 			if (other.neighborhood != null)
 				return false;
 		} else if (!neighborhood.equals(other.neighborhood))
+			return false;
+		if (number == null) {
+			if (other.number != null)
+				return false;
+		} else if (!number.equals(other.number))
 			return false;
 		if (city == null) {
 			if (other.city != null)
@@ -423,4 +440,6 @@ public class Event implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 }

@@ -17,7 +17,7 @@ import br.com.pontotrilha.services.AuthServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Authentication Endpoint")
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

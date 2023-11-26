@@ -3,6 +3,7 @@ package br.com.pontotrilha.controllers;
 import com.google.api.services.drive.model.File;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+@Tag(name = "Files", description = "Endpoint to manage files")
 @RestController
 @RequestMapping("/api/files/v1")
 public class FileController {
