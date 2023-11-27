@@ -40,8 +40,8 @@ public class PaymentController {
     @Value("${stripe.apiKey}")
     private String stripeApiKey;
 
-    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
-    @GetMapping("/newPayment")
+    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+    @PostMapping("/newPayment")
     public ResponseEntity newPayment() throws StripeException {
         Stripe.apiKey = stripeApiKey;
 
@@ -64,7 +64,7 @@ public class PaymentController {
         return ResponseEntity.ok().body(map);
     }
 
-    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
     @PostMapping("/webhook")
     public ResponseEntity webhook(@RequestBody String payload) {
         Event event = null;
