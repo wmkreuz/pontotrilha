@@ -119,7 +119,7 @@ public class PaymentController {
         return ResponseEntity.ok().body("Payment Received successfully!");
     }
 
-    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
+    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
     @GetMapping("/checkout")
     public RedirectView checkout () throws StripeException {
         User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
