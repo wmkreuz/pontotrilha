@@ -4,12 +4,18 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
+
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Product;
+import com.stripe.param.ProductCreateParams;
 
 import br.com.pontotrilha.controllers.EventController;
 import br.com.pontotrilha.data.vo.v1.EventVO;
@@ -27,6 +33,9 @@ public class EventServices {
 
 	@Autowired
 	EventRepository repository;
+
+	@Value("${stripe.apiKey}")
+    private String stripeApiKey;
 
 	public List<EventVO> findAll() {
 
@@ -50,7 +59,7 @@ public class EventServices {
 		return vo;
 	}
 
-	public EventVO create(EventVO event) {
+	public EventVO create(EventVO event) throws StripeException {
 		if (event == null)
 			throw new RequiredObjectIsNullException();
 
@@ -58,6 +67,30 @@ public class EventServices {
 
 		logger.info("Creating one event!");
 		var entity = DozerMapper.parseObject(event, Event.class);
+
+		Stripe.apiKey = stripeApiKey;
+
+		ProductCreateParams params =
+		  ProductCreateParams.builder()
+		    .setName(event.getEventName())
+		    .setDefaultPriceData(
+		      ProductCreateParams.DefaultPriceData.builder()
+		        .setUnitAmount((new Double(event.getTickePrice()*100)).longValue())
+		        .setCurrency("brl")
+		        .setRecurring(
+		          ProductCreateParams.DefaultPriceData.Recurring.builder()
+		            .setInterval(ProductCreateParams.DefaultPriceData.Recurring.Interval.MONTH)
+		            .build()
+		        )
+		        .build()
+		    )
+		    .addExpand("default_price")
+		    .build();
+
+		Product product = Product.create(params);
+
+		entity.setTickePriceStripe(product.getDefaultPrice());
+
 		entity.setCreatedByUser(userDetails);
 		var vo = DozerMapper.parseObject(repository.save(entity), EventVO.class);
 		vo.add(linkTo(methodOn(EventController.class).findById(vo.getKey())).withSelfRel());

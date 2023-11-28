@@ -15,6 +15,7 @@ CREATE TABLE events (
     ticket_title VARCHAR(255) NOT NULL,
     quantity BIGINT NOT NULL,
     ticket_price DOUBLE PRECISION NOT NULL,
+    ticket_price_stripe VARCHAR(255) NOT NULL,
     start_of_sales DATE NOT NULL,
     end_of_sales DATE NOT NULL,
     min_purchase_quantity BIGINT NOT NULL,

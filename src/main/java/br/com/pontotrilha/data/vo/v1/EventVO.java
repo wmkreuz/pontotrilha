@@ -12,10 +12,11 @@ import com.github.dozermapper.core.Mapping;
 
 import br.com.pontotrilha.model.Map;
 import br.com.pontotrilha.model.User;
+import jakarta.persistence.Column;
 
-@JsonPropertyOrder({ "id", "locationName", "street", "neighborhood", "city",
+@JsonPropertyOrder({ "id", "locationName", "street", "neighborhood", "number","city",
 		"state", "zipCode", "complement", "eventName", "description",
-		"startDate", "endDate", "ticketTitle", "quantity", "tickePrice",
+		"startDate", "endDate", "ticketTitle", "quantity", "tickePrice", "tickePriceStripe",
 		"startOfSales", "endOfSales", "minPurchaseQuantity", "maxPurchaseQuantity", "eventStatus" })
 public class EventVO extends RepresentationModel<EventVO> implements Serializable {
 
@@ -54,6 +55,8 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 	private Long quantity;
 
 	private Double tickePrice;
+
+	private String tickePriceStripe;
 
 	private Date startOfSales;
 
@@ -262,6 +265,14 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 		this.number = number;
 	}
 
+	public String getTickePriceStripe() {
+		return tickePriceStripe;
+	}
+
+	public void setTickePriceStripe(String tickePriceStripe) {
+		this.tickePriceStripe = tickePriceStripe;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -282,6 +293,7 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 		result = prime * result + ((ticketTitle == null) ? 0 : ticketTitle.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result + ((tickePrice == null) ? 0 : tickePrice.hashCode());
+		result = prime * result + ((tickePriceStripe == null) ? 0 : tickePriceStripe.hashCode());
 		result = prime * result + ((startOfSales == null) ? 0 : startOfSales.hashCode());
 		result = prime * result + ((endOfSales == null) ? 0 : endOfSales.hashCode());
 		result = prime * result + ((minPurchaseQuantity == null) ? 0 : minPurchaseQuantity.hashCode());
@@ -380,6 +392,11 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 			if (other.tickePrice != null)
 				return false;
 		} else if (!tickePrice.equals(other.tickePrice))
+			return false;
+		if (tickePriceStripe == null) {
+			if (other.tickePriceStripe != null)
+				return false;
+		} else if (!tickePriceStripe.equals(other.tickePriceStripe))
 			return false;
 		if (startOfSales == null) {
 			if (other.startOfSales != null)

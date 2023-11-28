@@ -72,6 +72,9 @@ public class Event implements Serializable {
 	@Column(name = "ticket_price", nullable = false)
 	private Double tickePrice;
 
+	@Column(name = "ticket_price_stripe", nullable = false)
+	private String tickePriceStripe;
+
 	@Column(name = "start_of_sales", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date startOfSales;
@@ -284,6 +287,14 @@ public class Event implements Serializable {
 		this.number = number;
 	}
 
+	public String getTickePriceStripe() {
+		return tickePriceStripe;
+	}
+
+	public void setTickePriceStripe(String tickePriceStripe) {
+		this.tickePriceStripe = tickePriceStripe;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -304,6 +315,7 @@ public class Event implements Serializable {
 		result = prime * result + ((ticketTitle == null) ? 0 : ticketTitle.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result + ((tickePrice == null) ? 0 : tickePrice.hashCode());
+		result = prime * result + ((tickePriceStripe == null) ? 0 : tickePriceStripe.hashCode());
 		result = prime * result + ((startOfSales == null) ? 0 : startOfSales.hashCode());
 		result = prime * result + ((endOfSales == null) ? 0 : endOfSales.hashCode());
 		result = prime * result + ((minPurchaseQuantity == null) ? 0 : minPurchaseQuantity.hashCode());
@@ -403,6 +415,11 @@ public class Event implements Serializable {
 				return false;
 		} else if (!tickePrice.equals(other.tickePrice))
 			return false;
+		if (tickePriceStripe == null) {
+			if (other.tickePriceStripe != null)
+				return false;
+		} else if (!tickePriceStripe.equals(other.tickePriceStripe))
+			return false;
 		if (startOfSales == null) {
 			if (other.startOfSales != null)
 				return false;
@@ -441,5 +458,5 @@ public class Event implements Serializable {
 		return true;
 	}
 
-	
+		
 }

@@ -6,24 +6,24 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.google.gson.JsonSyntaxException;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Event;
-import com.stripe.model.EventDataObjectDeserializer;
-import com.stripe.model.Invoice;
-import com.stripe.model.PaymentIntent;
-import com.stripe.model.PaymentMethod;
-import com.stripe.model.StripeObject;
+import com.stripe.model.*;
+import com.stripe.model.checkout.Session;
 import com.stripe.net.ApiResource;
 import com.stripe.param.PaymentIntentCreateParams;
+import com.stripe.param.checkout.SessionCreateParams;
 
+import br.com.pontotrilha.model.User;
 import br.com.pontotrilha.services.PaymentService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,7 +40,7 @@ public class PaymentController {
     @Value("${stripe.apiKey}")
     private String stripeApiKey;
 
-    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
     @PostMapping("/newPayment")
     public ResponseEntity newPayment() throws StripeException {
         Stripe.apiKey = stripeApiKey;
@@ -52,8 +52,7 @@ public class PaymentController {
                         PaymentIntentCreateParams.AutomaticPaymentMethods
                                 .builder()
                                 .setEnabled(true)
-                                .build()
-                )
+                                .build())
                 .build();
 
         PaymentIntent paymentIntent = PaymentIntent.create(params);
@@ -64,7 +63,6 @@ public class PaymentController {
         return ResponseEntity.ok().body(map);
     }
 
-    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
     @PostMapping("/webhook")
     public ResponseEntity webhook(@RequestBody String payload) {
         Event event = null;
@@ -96,7 +94,8 @@ public class PaymentController {
                 break;
             case "payment_method.attached":
                 PaymentMethod paymentMethod = (PaymentMethod) stripeObject;
-                // Then define and call a method to handle the successful attachment of a PaymentMethod.
+                // Then define and call a method to handle the successful attachment of a
+                // PaymentMethod.
                 // handlePaymentMethodAttached(paymentMethod);
                 break;
             case "customer.subscription.created":
@@ -119,4 +118,40 @@ public class PaymentController {
 
         return ResponseEntity.ok().body("Payment Received successfully!");
     }
+
+    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
+    @GetMapping("/checkout")
+    public RedirectView checkout () throws StripeException {
+        User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Stripe.apiKey = stripeApiKey;
+
+        String YOUR_DOMAIN = "https://pontotrilha.onrender.com/api/payment/v1/";
+        //String YOUR_DOMAIN = "http://localhost:8080/api/payment/v1/";
+
+        SessionCreateParams params =
+                SessionCreateParams.builder()
+                        .setMode(SessionCreateParams.Mode.PAYMENT)
+                        .setSuccessUrl(YOUR_DOMAIN + "?success=true")
+                        .setCancelUrl(YOUR_DOMAIN + "?canceled=true")
+                        .addLineItem(
+                                SessionCreateParams.LineItem.builder()
+                                        .setPrice("price_1OHTyYFF9KWdqQjov5WgqAxi")
+                                        .setQuantity(1L)
+                                        .build()
+                        )
+                        .setCustomerEmail(userDetails.getUserName())
+                        .build();
+
+        Session session = Session.create(params);
+
+        /*Map<String, String> map = new HashMap<>();
+        map.put("client_secret", session.getClientSecret());
+
+        return ResponseEntity.ok().body(map);*/
+
+        String url = session.getUrl();
+        return new RedirectView(url);
+        //return url;
+    }
+
 }

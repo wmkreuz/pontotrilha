@@ -61,7 +61,7 @@ public class SecurityConfig {
                                         "/auth/signup",
                                         "/auth/refresh/**",
                                         "/swagger-ui/**",
-                                        "/api/payment/v1/**",
+                                        "/api/payment/v1/webhook",
                                         "/v3/api-docs/**")
                                 .permitAll()
                                 .requestMatchers("/api/**").authenticated()

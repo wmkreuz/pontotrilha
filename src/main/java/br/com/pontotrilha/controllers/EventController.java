@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.stripe.exception.StripeException;
+
 import br.com.pontotrilha.data.vo.v1.EventVO;
 import br.com.pontotrilha.data.vo.v1.MapVO;
 import br.com.pontotrilha.mapper.DozerMapper;
@@ -93,7 +95,7 @@ public class EventController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endOfSales,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
 			@RequestParam Long eventStatus,
-			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude) {
+			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude) throws StripeException {
 		MapVO map = new MapVO();
 		map.setDescription(map_description);
 		map.setLatitude(latitude);
