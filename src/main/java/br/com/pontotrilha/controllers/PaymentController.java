@@ -122,7 +122,7 @@ public class PaymentController {
     //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
     @GetMapping("/checkout")
     public RedirectView checkout () throws StripeException {
-        User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Stripe.apiKey = stripeApiKey;
 
         String YOUR_DOMAIN = "https://pontotrilha.onrender.com/api/payment/v1/";
@@ -139,7 +139,7 @@ public class PaymentController {
                                         .setQuantity(1L)
                                         .build()
                         )
-                        .setCustomerEmail(userDetails.getUserName())
+                        //.setCustomerEmail(userDetails.getUserName())
                         .build();
 
         Session session = Session.create(params);
