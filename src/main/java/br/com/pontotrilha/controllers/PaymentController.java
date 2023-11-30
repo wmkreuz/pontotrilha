@@ -1,16 +1,11 @@
 package br.com.pontotrilha.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -20,10 +15,13 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.ApiResource;
-import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 
-import br.com.pontotrilha.model.User;
+import br.com.pontotrilha.mapper.DozerMapper;
+import br.com.pontotrilha.model.Ticket;
+import br.com.pontotrilha.repositories.TicketRepository;
+import br.com.pontotrilha.repositories.UserRepository;
+import br.com.pontotrilha.services.EventServices;
 import br.com.pontotrilha.services.PaymentService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,38 +35,27 @@ public class PaymentController {
     @Autowired
     private PaymentService service;
 
+    @Autowired
+	EventServices eventServices;
+
+    @Autowired
+	UserRepository userRepository;
+
+    @Autowired
+	TicketRepository ticketRepository;
+
     @Value("${stripe.apiKey}")
     private String stripeApiKey;
-
-    @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
-    @PostMapping("/newPayment")
-    public ResponseEntity newPayment() throws StripeException {
-        Stripe.apiKey = stripeApiKey;
-
-        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setAmount(1000L)
-                .setCurrency("brl")
-                .setAutomaticPaymentMethods(
-                        PaymentIntentCreateParams.AutomaticPaymentMethods
-                                .builder()
-                                .setEnabled(true)
-                                .build())
-                .build();
-
-        PaymentIntent paymentIntent = PaymentIntent.create(params);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("client_secret", paymentIntent.getClientSecret());
-
-        return ResponseEntity.ok().body(map);
-    }
 
     @PostMapping("/webhook")
     public ResponseEntity webhook(@RequestBody String payload) {
         Event event = null;
+       System.out.println(payload);
 
         try {
             event = ApiResource.GSON.fromJson(payload, Event.class);
+            event.getId();
+             System.out.println(event);
         } catch (JsonSyntaxException e) {
             System.out.println("Webhook error while parsing basic request.");
             return ResponseEntity.badRequest().body("Webhook error while parsing basic request.");
@@ -119,14 +106,21 @@ public class PaymentController {
         return ResponseEntity.ok().body("Payment Received successfully!");
     }
 
-    //@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br", "http://localhost:3000" })
-    @GetMapping("/checkout")
-    public RedirectView checkout () throws StripeException {
-        //User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @PostMapping("/checkout")
+    public RedirectView checkout (@RequestParam Long eventId, @RequestParam Long quantity, @RequestParam String username) throws StripeException {
         Stripe.apiKey = stripeApiKey;
 
-        String YOUR_DOMAIN = "https://pontotrilha.onrender.com/api/payment/v1/";
-        //String YOUR_DOMAIN = "http://localhost:8080/api/payment/v1/";
+        var event = eventServices.findById(eventId);
+
+        var user = userRepository.findByUsername(username);
+
+        Ticket ticket = new Ticket();
+        var eventEntity = DozerMapper.parseObject(event, br.com.pontotrilha.model.Event.class);
+        ticket.setEventId(eventEntity);
+        ticket.setPurchasedByUserId(user);
+        ticketRepository.save(ticket);
+
+        String YOUR_DOMAIN = "https://pontotrilha.onrender.com/pagamento";
 
         SessionCreateParams params =
                 SessionCreateParams.builder()
@@ -135,23 +129,17 @@ public class PaymentController {
                         .setCancelUrl(YOUR_DOMAIN + "?canceled=true")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
-                                        .setPrice("price_1OHTyYFF9KWdqQjov5WgqAxi")
-                                        .setQuantity(1L)
+                                        .setPrice(event.getTickePriceStripe())
+                                        .setQuantity(quantity)
                                         .build()
                         )
-                        //.setCustomerEmail(userDetails.getUserName())
+                        .setCustomerEmail(username)
                         .build();
 
         Session session = Session.create(params);
 
-        /*Map<String, String> map = new HashMap<>();
-        map.put("client_secret", session.getClientSecret());
-
-        return ResponseEntity.ok().body(map);*/
-
         String url = session.getUrl();
         return new RedirectView(url);
-        //return url;
     }
 
 }
