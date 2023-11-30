@@ -36,6 +36,7 @@ br\com\pontotrilha\services\TicketServices.class
 br\com\pontotrilha\model\Permission.class
 br\com\pontotrilha\repositories\EventRepository.class
 br\com\pontotrilha\security\jwt\JwtTokenFilter.class
+br\com\pontotrilha\services\StripeEventJobService.class
 br\com\pontotrilha\repositories\UserPermissionRepository.class
 br\com\pontotrilha\services\MapServices.class
 br\com\pontotrilha\util\GpxParser.class
