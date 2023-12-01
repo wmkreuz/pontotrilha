@@ -5,15 +5,19 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.EventCollection;
 import com.stripe.model.EventDataObjectDeserializer;
-import com.stripe.model.PaymentIntent;
 import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
+
+import br.com.pontotrilha.model.Payments;
+import br.com.pontotrilha.repositories.PaymentRepository;
+import br.com.pontotrilha.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +26,12 @@ public class StripeEventJobService {
 
     @Autowired
     private PaymentService service;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @Value("${stripe.apiKey}")
     private String stripeApiKey;
@@ -32,7 +42,7 @@ public class StripeEventJobService {
             Stripe.apiKey = stripeApiKey;
 
             Map<String, Object> params = new HashMap<>();
-            params.put("limit", 1);
+            params.put("limit", 100);
 
             EventCollection eventCollection = Event.list(params);
 
@@ -51,13 +61,31 @@ public class StripeEventJobService {
 
                 switch (event.getType()) {
                     case "checkout.session.completed":
+
                         Session session = (Session) stripeObject;
 
-                        PaymentIntent paymentIntent = session.getPaymentIntentObject();;
+                        if (session != null) {
 
-                        //service.registerNewPayment(invoice);
-                        System.out.println("Payment successfully made by the user " + session.getCustomerDetails().getEmail());
-                        
+                            var user = userRepository.findByUsername(session.getCustomerDetails().getEmail());
+
+                            if (paymentRepository
+                                    .findBypaymentIdStripe(session.getId()) == null) {
+
+                                Payments newPayment = new Payments();
+
+                                newPayment.setAmountPaid(session.getAmountTotal());
+                                newPayment.setPaymentDate(LocalDateTime.now());
+                                newPayment.setPaymentIdStripe(session.getId());
+                                newPayment.setPurchasedByUserId(user);
+
+                                service.registerNewPayment(newPayment);
+
+                                System.out.println("Payment successfully made by the user "
+                                        + session.getCustomerDetails().getEmail());
+                            }
+
+                        }
+
                         break;
                     default:
                         System.out.println("Unhandled event type: " + event.getType());

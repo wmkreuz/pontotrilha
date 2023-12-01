@@ -1,8 +1,8 @@
 package br.com.pontotrilha.model;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,8 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "events")
@@ -56,12 +54,16 @@ public class Event implements Serializable {
 	private String description;
 
 	@Column(name = "start_date", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date startDate;
+	private LocalDate startDate;
+
+	@Column(name = "start_date_time", nullable = false)
+	private LocalTime startDateTime;
 
 	@Column(name = "end_date", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date endDate;
+	private LocalDate endDate;
+
+	@Column(name = "end_date_time", nullable = false)
+	private LocalTime endDateTime;
 
 	@Column(name = "ticket_title", nullable = false, length = 255)
 	private String ticketTitle;
@@ -76,12 +78,16 @@ public class Event implements Serializable {
 	private String tickePriceStripe;
 
 	@Column(name = "start_of_sales", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date startOfSales;
+	private LocalDate startOfSales;
+
+	@Column(name = "start_of_sales_time", nullable = false)
+	private LocalTime startOfSalesTime;
 
 	@Column(name = "end_of_sales", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date endOfSales;
+	private LocalDate endOfSales;
+
+	@Column(name = "end_of_sales_time", nullable = false)
+	private LocalTime endOfSalesTime;
 
 	@Column(name = "min_purchase_quantity", nullable = false)
 	private Long minPurchaseQuantity;
@@ -183,22 +189,6 @@ public class Event implements Serializable {
 		this.description = description;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	public String getTicketTitle() {
 		return ticketTitle;
 	}
@@ -221,22 +211,6 @@ public class Event implements Serializable {
 
 	public void setTickePrice(Double tickePrice) {
 		this.tickePrice = tickePrice;
-	}
-
-	public Date getStartOfSales() {
-		return startOfSales;
-	}
-
-	public void setStartOfSales(Date startOfSales) {
-		this.startOfSales = startOfSales;
-	}
-
-	public Date getEndOfSales() {
-		return endOfSales;
-	}
-
-	public void setEndOfSales(Date endOfSales) {
-		this.endOfSales = endOfSales;
 	}
 
 	public Long getMinPurchaseQuantity() {
@@ -295,6 +269,70 @@ public class Event implements Serializable {
 		this.tickePriceStripe = tickePriceStripe;
 	}
 
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalTime getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(LocalTime startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public LocalTime getEndDateTime() {
+		return endDateTime;
+	}
+
+	public void setEndDateTime(LocalTime endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
+	public LocalDate getStartOfSales() {
+		return startOfSales;
+	}
+
+	public void setStartOfSales(LocalDate startOfSales) {
+		this.startOfSales = startOfSales;
+	}
+
+	public LocalTime getStartOfSalesTime() {
+		return startOfSalesTime;
+	}
+
+	public void setStartOfSalesTime(LocalTime startOfSalesTime) {
+		this.startOfSalesTime = startOfSalesTime;
+	}
+
+	public LocalDate getEndOfSales() {
+		return endOfSales;
+	}
+
+	public void setEndOfSales(LocalDate endOfSales) {
+		this.endOfSales = endOfSales;
+	}
+
+	public LocalTime getEndOfSalesTime() {
+		return endOfSalesTime;
+	}
+
+	public void setEndOfSalesTime(LocalTime endOfSalesTime) {
+		this.endOfSalesTime = endOfSalesTime;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -311,13 +349,17 @@ public class Event implements Serializable {
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((startDateTime == null) ? 0 : startDateTime.hashCode());
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + ((endDateTime == null) ? 0 : endDateTime.hashCode());
 		result = prime * result + ((ticketTitle == null) ? 0 : ticketTitle.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result + ((tickePrice == null) ? 0 : tickePrice.hashCode());
 		result = prime * result + ((tickePriceStripe == null) ? 0 : tickePriceStripe.hashCode());
 		result = prime * result + ((startOfSales == null) ? 0 : startOfSales.hashCode());
+		result = prime * result + ((startOfSalesTime == null) ? 0 : startOfSalesTime.hashCode());
 		result = prime * result + ((endOfSales == null) ? 0 : endOfSales.hashCode());
+		result = prime * result + ((endOfSalesTime == null) ? 0 : endOfSalesTime.hashCode());
 		result = prime * result + ((minPurchaseQuantity == null) ? 0 : minPurchaseQuantity.hashCode());
 		result = prime * result + ((maxPurchaseQuantity == null) ? 0 : maxPurchaseQuantity.hashCode());
 		result = prime * result + ((eventStatus == null) ? 0 : eventStatus.hashCode());
@@ -395,10 +437,20 @@ public class Event implements Serializable {
 				return false;
 		} else if (!startDate.equals(other.startDate))
 			return false;
+		if (startDateTime == null) {
+			if (other.startDateTime != null)
+				return false;
+		} else if (!startDateTime.equals(other.startDateTime))
+			return false;
 		if (endDate == null) {
 			if (other.endDate != null)
 				return false;
 		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (endDateTime == null) {
+			if (other.endDateTime != null)
+				return false;
+		} else if (!endDateTime.equals(other.endDateTime))
 			return false;
 		if (ticketTitle == null) {
 			if (other.ticketTitle != null)
@@ -425,10 +477,20 @@ public class Event implements Serializable {
 				return false;
 		} else if (!startOfSales.equals(other.startOfSales))
 			return false;
+		if (startOfSalesTime == null) {
+			if (other.startOfSalesTime != null)
+				return false;
+		} else if (!startOfSalesTime.equals(other.startOfSalesTime))
+			return false;
 		if (endOfSales == null) {
 			if (other.endOfSales != null)
 				return false;
 		} else if (!endOfSales.equals(other.endOfSales))
+			return false;
+		if (endOfSalesTime == null) {
+			if (other.endOfSalesTime != null)
+				return false;
+		} else if (!endOfSalesTime.equals(other.endOfSalesTime))
 			return false;
 		if (minPurchaseQuantity == null) {
 			if (other.minPurchaseQuantity != null)
@@ -457,6 +519,4 @@ public class Event implements Serializable {
 			return false;
 		return true;
 	}
-
-		
 }

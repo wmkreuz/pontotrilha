@@ -1,5 +1,7 @@
 package br.com.pontotrilha.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -88,11 +90,16 @@ public class EventController {
 			@RequestParam String street, @RequestParam String neighborhood, @RequestParam String number, @RequestParam String city,
 			@RequestParam String state, @RequestParam String zipCode, @RequestParam String complement,
 			@RequestParam String eventName, @RequestParam String description,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, @RequestParam String ticketTitle,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startDateTime,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, 
+			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endDateTime,
+			@RequestParam String ticketTitle,
 			@RequestParam Long quantity, @RequestParam Double tickePrice,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startOfSales,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endOfSales,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startOfSales,
+			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startOfSalTime,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endOfSales,
+			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endOfSalesTime,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
 			@RequestParam Long eventStatus,
 			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude) throws StripeException {
@@ -116,12 +123,16 @@ public class EventController {
 		event.setEventName(eventName);
 		event.setDescription(description);
 		event.setStartDate(startDate);
+		event.setStartDateTime(startDateTime);
 		event.setEndDate(endDate);
+		event.setEndDateTime(endDateTime);
 		event.setTicketTitle(ticketTitle);
 		event.setQuantity(maxPurchaseQuantity);
 		event.setTickePrice(tickePrice);
 		event.setStartOfSales(startOfSales);
+		event.setStartOfSalesTime(startOfSalTime);
 		event.setEndOfSales(endOfSales);
+		event.setEndOfSalesTime(endOfSalesTime);
 		event.setMinPurchaseQuantity(minPurchaseQuantity);
 		event.setMaxPurchaseQuantity(maxPurchaseQuantity);
 		event.setEventStatus(eventStatus);

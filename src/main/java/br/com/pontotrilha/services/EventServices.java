@@ -35,7 +35,7 @@ public class EventServices {
 	EventRepository repository;
 
 	@Value("${stripe.apiKey}")
-    private String stripeApiKey;
+	private String stripeApiKey;
 
 	public List<EventVO> findAll() {
 
@@ -70,22 +70,20 @@ public class EventServices {
 
 		Stripe.apiKey = stripeApiKey;
 
-		ProductCreateParams params =
-		  ProductCreateParams.builder()
-		    .setName(event.getEventName())
-		    .setDefaultPriceData(
-		      ProductCreateParams.DefaultPriceData.builder()
-		        .setUnitAmount((new Double(event.getTickePrice()*100)).longValue())
-		        .setCurrency("brl")
-		        .setRecurring(
-		          ProductCreateParams.DefaultPriceData.Recurring.builder()
-		            .setInterval(ProductCreateParams.DefaultPriceData.Recurring.Interval.MONTH)
-		            .build()
-		        )
-		        .build()
-		    )
-		    .addExpand("default_price")
-		    .build();
+		ProductCreateParams params = ProductCreateParams.builder()
+				.setName(event.getEventName())
+				.setDefaultPriceData(
+						ProductCreateParams.DefaultPriceData.builder()
+								.setUnitAmount((new Double(event.getTickePrice() * 100)).longValue())
+								.setCurrency("brl")
+								.setRecurring(
+										ProductCreateParams.DefaultPriceData.Recurring.builder()
+												.setInterval(
+														ProductCreateParams.DefaultPriceData.Recurring.Interval.MONTH)
+												.build())
+								.build())
+				.addExpand("default_price")
+				.build();
 
 		Product product = Product.create(params);
 
@@ -122,12 +120,16 @@ public class EventServices {
 			entity.setEventName(event.getEventName());
 			entity.setDescription(event.getDescription());
 			entity.setStartDate(event.getStartDate());
+			entity.setStartDateTime(event.getStartDateTime());
 			entity.setEndDate(event.getEndDate());
+			entity.setEndDateTime(event.getEndDateTime());
 			entity.setTicketTitle(event.getTicketTitle());
 			entity.setQuantity(event.getQuantity());
 			entity.setTickePrice(event.getTickePrice());
 			entity.setStartOfSales(event.getStartOfSales());
+			entity.setStartOfSalesTime(event.getStartOfSalesTime());
 			entity.setEndOfSales(event.getEndOfSales());
+			entity.setEndOfSalesTime(event.getEndOfSalesTime());
 			entity.setMinPurchaseQuantity(event.getMinPurchaseQuantity());
 			entity.setMaxPurchaseQuantity(event.getMaxPurchaseQuantity());
 			entity.setEventStatus(event.getEventStatus());

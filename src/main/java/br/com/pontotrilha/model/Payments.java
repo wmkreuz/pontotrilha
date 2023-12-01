@@ -13,9 +13,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-        name = "payments"
-)
+@Table(name = "payments")
 public class Payments implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,20 +25,15 @@ public class Payments implements Serializable {
     @Column(name = "amount_paid")
     private Long amountPaid;
 
-    private String email;
-
-    @Column(name = "card_name")
-    private String cardName;
-
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;
 
-    @Column(name = "stripe_customer_id")
-    private String customerId;
+    @Column(name = "payment_id_stripe")
+    private String paymentIdStripe;
 
     @ManyToOne
-	@JoinColumn(name = "purchased_by_user_id", referencedColumnName = "id")
-	private User purchasedByUserId;
+    @JoinColumn(name = "purchased_by_user_id", referencedColumnName = "id")
+    private User purchasedByUserId;
 
     public Payments() {
     }
@@ -61,22 +54,6 @@ public class Payments implements Serializable {
         this.amountPaid = amountPaid;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCardName() {
-        return cardName;
-    }
-
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
-    }
-
     public LocalDateTime getPaymentDate() {
         return paymentDate;
     }
@@ -85,12 +62,12 @@ public class Payments implements Serializable {
         this.paymentDate = paymentDate;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getPaymentIdStripe() {
+        return paymentIdStripe;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setPaymentIdStripe(String paymentIdStripe) {
+        this.paymentIdStripe = paymentIdStripe;
     }
 
     public User getPurchasedByUserId() {
@@ -107,10 +84,8 @@ public class Payments implements Serializable {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((amountPaid == null) ? 0 : amountPaid.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((cardName == null) ? 0 : cardName.hashCode());
         result = prime * result + ((paymentDate == null) ? 0 : paymentDate.hashCode());
-        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((paymentIdStripe == null) ? 0 : paymentIdStripe.hashCode());
         result = prime * result + ((purchasedByUserId == null) ? 0 : purchasedByUserId.hashCode());
         return result;
     }
@@ -134,25 +109,15 @@ public class Payments implements Serializable {
                 return false;
         } else if (!amountPaid.equals(other.amountPaid))
             return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (cardName == null) {
-            if (other.cardName != null)
-                return false;
-        } else if (!cardName.equals(other.cardName))
-            return false;
         if (paymentDate == null) {
             if (other.paymentDate != null)
                 return false;
         } else if (!paymentDate.equals(other.paymentDate))
             return false;
-        if (customerId == null) {
-            if (other.customerId != null)
+        if (paymentIdStripe == null) {
+            if (other.paymentIdStripe != null)
                 return false;
-        } else if (!customerId.equals(other.customerId))
+        } else if (!paymentIdStripe.equals(other.paymentIdStripe))
             return false;
         if (purchasedByUserId == null) {
             if (other.purchasedByUserId != null)
