@@ -36,7 +36,7 @@ public class StripeEventJobService {
     @Value("${stripe.apiKey}")
     private String stripeApiKey;
 
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(fixedRate = 6 * 60 * 60 * 1000)
     public void consultarEventosStripe() {
         try {
             Stripe.apiKey = stripeApiKey;
