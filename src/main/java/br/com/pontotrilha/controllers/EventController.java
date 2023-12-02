@@ -60,6 +60,21 @@ public class EventController {
 	}
 
 	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+	@GetMapping(value = "/userevents/{username}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
+	@Operation(summary = "Find all user events", description = "Find all user events", tags = { "Events" }, responses = {
+			@ApiResponse(description = "Success", responseCode = "200", content = {
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EventVO.class)))
+			}),
+			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+	})
+	public List<EventVO> findAllUserEvents(@PathVariable(value = "username") String username) {
+		return service.findAllUserEvents(username);
+	}
+
+	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML })
 	@Operation(summary = "Find an event", description = "Find an event", tags = { "Events" }, responses = {
@@ -97,7 +112,7 @@ public class EventController {
 			@RequestParam String ticketTitle,
 			@RequestParam Long quantity, @RequestParam Double tickePrice,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startOfSales,
-			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startOfSalTime,
+			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startOfSalesTime,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endOfSales,
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endOfSalesTime,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
@@ -111,6 +126,7 @@ public class EventController {
 
 		var mapEntity = DozerMapper.parseObject(mapRet, Map.class);
 
+		System.out.println(startDateTime);
 		EventVO event = new EventVO();
 		event.setLocationName(locationName);
 		event.setStreet(street);
@@ -130,7 +146,7 @@ public class EventController {
 		event.setQuantity(maxPurchaseQuantity);
 		event.setTickePrice(tickePrice);
 		event.setStartOfSales(startOfSales);
-		event.setStartOfSalesTime(startOfSalTime);
+		event.setStartOfSalesTime(startOfSalesTime);
 		event.setEndOfSales(endOfSales);
 		event.setEndOfSalesTime(endOfSalesTime);
 		event.setMinPurchaseQuantity(minPurchaseQuantity);

@@ -48,6 +48,17 @@ public class EventServices {
 		return events;
 	}
 
+	public List<EventVO> findAllUserEvents(String username) {
+
+		logger.info("Finding all user events!");
+
+		var events = DozerMapper.parseListObjects(repository.findAllUserEventsByUsername(username), EventVO.class);
+		events
+				.stream()
+				.forEach(p -> p.add(linkTo(methodOn(EventController.class).findById(p.getKey())).withSelfRel()));
+		return events;
+	}
+
 	public EventVO findById(Long id) {
 
 		logger.info("Finding one event!");
@@ -86,6 +97,7 @@ public class EventServices {
 				.build();
 
 		Product product = Product.create(params);
+
 
 		entity.setTickePriceStripe(product.getDefaultPrice());
 

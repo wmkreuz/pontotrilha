@@ -6,6 +6,8 @@ public class AccountCredentialsVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long key;
+
 	private String username;
 	private String password;
 
@@ -30,12 +32,21 @@ public class AccountCredentialsVO implements Serializable {
 		this.password = password;
 	}
 
+	public Long getKey() {
+		return key;
+	}
+
+	public void setKey(Long key) {
+		this.key = key;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 
@@ -48,16 +59,22 @@ public class AccountCredentialsVO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AccountCredentialsVO other = (AccountCredentialsVO) obj;
-		if (password == null) {
-			if (other.password != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!password.equals(other.password))
+		} else if (!key.equals(other.key))
 			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		return true;
 	}
+
 }

@@ -99,8 +99,8 @@ public class TicketController {
 		RedirectView redirectView = paymentController.checkout(eventEntity, user, quantity);
 
 		TicketVO ticket = new TicketVO();
-		ticket.setEventId(eventEntity);
-		ticket.setPurchasedByUserId(user);
+		ticket.setEvent(eventEntity);
+		ticket.setPurchasedByUser(user);
 		service.create(ticket);
 
 		return redirectView;

@@ -3,6 +3,7 @@ package br.com.pontotrilha.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,5 +70,12 @@ public class AuthController {
 	private boolean checkIfParamsIsNotNull(AccountCredentialsVO data) {
 		return data == null || data.getUsername() == null || data.getUsername().isBlank()
 				|| data.getPassword() == null || data.getPassword().isBlank();
+	}
+
+	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+	@Operation(summary = "Registers the user and returns an authentication token")
+	@PostMapping(value = "/update")
+	public void update(@RequestBody User data) {
+		
 	}
 }

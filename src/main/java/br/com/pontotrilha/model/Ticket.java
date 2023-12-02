@@ -21,12 +21,12 @@ public class Ticket implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "event_id", referencedColumnName = "id")
-	private Event eventId;
+	@JoinColumn(name = "event", referencedColumnName = "id")
+	private Event event;
 
 	@ManyToOne
-	@JoinColumn(name = "purchased_by_user_id", referencedColumnName = "id")
-	private User purchasedByUserId;
+	@JoinColumn(name = "purchased_by_user", referencedColumnName = "id")
+	private User purchasedByUser;
 
 	public Long getId() {
 		return id;
@@ -36,20 +36,22 @@ public class Ticket implements Serializable {
 		this.id = id;
 	}
 
-	public Event getEventId() {
-		return eventId;
+	
+
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setEventId(Event eventId) {
-		this.eventId = eventId;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
-	public User getPurchasedByUserId() {
-		return purchasedByUserId;
+	public User getPurchasedByUser() {
+		return purchasedByUser;
 	}
 
-	public void setPurchasedByUserId(User purchasedByUserId) {
-		this.purchasedByUserId = purchasedByUserId;
+	public void setPurchasedByUser(User purchasedByUser) {
+		this.purchasedByUser = purchasedByUser;
 	}
 
 	@Override
@@ -57,8 +59,8 @@ public class Ticket implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
-		result = prime * result + ((purchasedByUserId == null) ? 0 : purchasedByUserId.hashCode());
+		result = prime * result + ((event == null) ? 0 : event.hashCode());
+		result = prime * result + ((purchasedByUser == null) ? 0 : purchasedByUser.hashCode());
 		return result;
 	}
 
@@ -76,16 +78,18 @@ public class Ticket implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (eventId == null) {
-			if (other.eventId != null)
+		if (event == null) {
+			if (other.event != null)
 				return false;
-		} else if (!eventId.equals(other.eventId))
+		} else if (!event.equals(other.event))
 			return false;
-		if (purchasedByUserId == null) {
-			if (other.purchasedByUserId != null)
+		if (purchasedByUser == null) {
+			if (other.purchasedByUser != null)
 				return false;
-		} else if (!purchasedByUserId.equals(other.purchasedByUserId))
+		} else if (!purchasedByUser.equals(other.purchasedByUser))
 			return false;
 		return true;
 	}
+
+	
 }

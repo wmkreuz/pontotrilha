@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.12</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>br.com.pontotrilha</groupId>
 	<artifactId>rest-with-spring-boot-and-java</artifactId>
@@ -58,7 +58,6 @@
 			<artifactId>jackson-dataformat-yaml</artifactId>
 		</dependency>
 
-		<!-- for Postgres SQL support -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -149,11 +148,10 @@
 			<version>24.5.0</version>
 		</dependency>
 
-    	<!-- Outras dependências aqui -->
     	<dependency>
         	<groupId>org.testcontainers</groupId>
         	<artifactId>postgresql</artifactId>
-        	<version>${testcontainers.version}</version> <!-- Use a versão mais recente disponível -->
+        	<version>${testcontainers.version}</version>
     	</dependency>
 
 		<dependency>
