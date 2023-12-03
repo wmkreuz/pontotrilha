@@ -3,6 +3,7 @@ package br.com.pontotrilha.services;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.pontotrilha.data.vo.v1.SignupVO;
 import br.com.pontotrilha.data.vo.v1.security.AccountCredentialsVO;
 import br.com.pontotrilha.data.vo.v1.security.TokenVO;
 import br.com.pontotrilha.exceptions.RequiredObjectIsNullException;
@@ -98,7 +100,13 @@ public class AuthServices {
 			}
 
 		}
-		return ResponseEntity.ok(userSave);
+
+		/*userSave = repository.findByUsername(user.getUserName());
+
+		return ResponseEntity.ok(userSave);*/
+
+		SignupVO vo = new SignupVO(userSave.getId(), userSave.getUserName(), userSave.getFullName());
+    	return ResponseEntity.status(HttpStatus.CREATED).body(vo);
 
 	}
 

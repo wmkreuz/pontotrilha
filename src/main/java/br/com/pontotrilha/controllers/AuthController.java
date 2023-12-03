@@ -39,14 +39,15 @@ public class AuthController {
 	}
 
 	@SuppressWarnings("rawtypes")
+
 	@Operation(summary = "Registers the user and returns an authentication token")
+
 	@PostMapping(value = "/signup")
 	public ResponseEntity signup(@RequestBody User data) {
 		var signup = authServices.signup(data);
 		if (signup == null)
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
-		AccountCredentialsVO accountCredentialsVO = new AccountCredentialsVO(data.getUsername(), data.getPassword());
-		return authServices.signin(accountCredentialsVO);
+		return signup;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -76,6 +77,6 @@ public class AuthController {
 	@Operation(summary = "Registers the user and returns an authentication token")
 	@PostMapping(value = "/update")
 	public void update(@RequestBody User data) {
-		
+
 	}
 }

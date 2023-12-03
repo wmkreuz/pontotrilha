@@ -2,7 +2,6 @@ package br.com.pontotrilha.controllers;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,16 +59,18 @@ public class EventController {
 	}
 
 	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
-	@GetMapping(value = "/userevents/{username}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
-	@Operation(summary = "Find all user events", description = "Find all user events", tags = { "Events" }, responses = {
-			@ApiResponse(description = "Success", responseCode = "200", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EventVO.class)))
-			}),
-			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
-	})
+	@GetMapping(value = "/userevents/{username}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_YML })
+	@Operation(summary = "Find all user events", description = "Find all user events", tags = {
+			"Events" }, responses = {
+					@ApiResponse(description = "Success", responseCode = "200", content = {
+							@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EventVO.class)))
+					}),
+					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+					@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+			})
 	public List<EventVO> findAllUserEvents(@PathVariable(value = "username") String username) {
 		return service.findAllUserEvents(username);
 	}
@@ -94,7 +95,7 @@ public class EventController {
 			MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA }, produces = {
 					MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML,
 					MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA })
-	@Operation(summary = "Add a new event", description = "Add a new event by passing a JSON, XML, or YML that represents an event!", tags = {
+	@Operation(summary = "Add a new event", description = "Add a new event!", tags = {
 			"Events" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = EventVO.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -102,12 +103,13 @@ public class EventController {
 					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 			})
 	public EventVO create(@RequestParam("file") MultipartFile file, @RequestParam String locationName,
-			@RequestParam String street, @RequestParam String neighborhood, @RequestParam String number, @RequestParam String city,
+			@RequestParam String street, @RequestParam String neighborhood, @RequestParam String number,
+			@RequestParam String city,
 			@RequestParam String state, @RequestParam String zipCode, @RequestParam String complement,
 			@RequestParam String eventName, @RequestParam String description,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startDateTime,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, 
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endDateTime,
 			@RequestParam String ticketTitle,
 			@RequestParam Long quantity, @RequestParam Double tickePrice,
@@ -117,7 +119,8 @@ public class EventController {
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endOfSalesTime,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
 			@RequestParam Long eventStatus,
-			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude) throws StripeException {
+			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude)
+			throws StripeException {
 		MapVO map = new MapVO();
 		map.setDescription(map_description);
 		map.setLatitude(latitude);
@@ -160,7 +163,7 @@ public class EventController {
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML }, produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 					MediaType.APPLICATION_YML })
-	@Operation(summary = "Updating an event", description = "Updating an event by passing a JSON, XML, or YML that represents an event!", tags = {
+	@Operation(summary = "Updating an event", description = "Updating an event!", tags = {
 			"Events" }, responses = {
 					@ApiResponse(description = "Updated", responseCode = "200", content = @Content(schema = @Schema(implementation = EventVO.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
