@@ -46,7 +46,7 @@ public class TicketServices {
 		return vo;
 	}
 
-	public TicketVO create(TicketVO ticket) {
+	public void create(TicketVO ticket) {
 		if (ticket == null)
 			throw new RequiredObjectIsNullException();
 
@@ -54,6 +54,5 @@ public class TicketServices {
 		var entity = DozerMapper.parseObject(ticket, Ticket.class);
 		var vo = DozerMapper.parseObject(repository.save(entity), TicketVO.class);
 		vo.add(linkTo(methodOn(TicketController.class).findById(vo.getKey())).withSelfRel());
-		return vo;
 	}
 }

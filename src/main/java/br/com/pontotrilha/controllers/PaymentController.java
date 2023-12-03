@@ -39,7 +39,7 @@ public class PaymentController {
 
     @CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
     @PostMapping("/checkout")
-    public RedirectView checkout(Event event, User user, Long quantity)
+    public String checkout(Event event, User user, Long quantity)
             throws StripeException {
 
         Stripe.apiKey = stripeApiKey;
@@ -61,7 +61,6 @@ public class PaymentController {
         Session session = Session.create(params);
 
         String url = session.getUrl();
-
-        return new RedirectView(url);
+        return url;
     }
 }

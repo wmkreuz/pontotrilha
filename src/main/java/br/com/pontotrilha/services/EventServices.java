@@ -1,6 +1,8 @@
 package br.com.pontotrilha.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Price;
 import com.stripe.model.Product;
 import com.stripe.param.ProductCreateParams;
 
@@ -81,7 +84,7 @@ public class EventServices {
 
 		Stripe.apiKey = stripeApiKey;
 
-		ProductCreateParams params = ProductCreateParams.builder()
+		/*ProductCreateParams params = ProductCreateParams.builder()
 				.setName(event.getEventName())
 				.setDefaultPriceData(
 						ProductCreateParams.DefaultPriceData.builder()
@@ -96,10 +99,23 @@ public class EventServices {
 				.addExpand("default_price")
 				.build();
 
-		Product product = Product.create(params);
+		Product product = Product.create(params);*/
+
+		// Crie um produto
+            Map<String, Object> productParams = new HashMap<>();
+            productParams.put("name", event.getEventName());
+            productParams.put("type", "good"); // Pode ser "good", "service" ou "sku"
+            Product product = Product.create(productParams);
+
+            // Crie um preço associado ao produto
+            Map<String, Object> priceParams = new HashMap<>();
+            priceParams.put("unit_amount", (new Double(event.getTickePrice() * 100)).longValue()); // O valor deve ser em centavos
+            priceParams.put("currency", "brl");
+            priceParams.put("product", product.getId());
+            Price price = Price.create(priceParams);
 
 
-		entity.setTickePriceStripe(product.getDefaultPrice());
+		entity.setTickePriceStripe(price.getId());
 
 		entity.setCreatedByUser(userDetails);
 		var vo = DozerMapper.parseObject(repository.save(entity), EventVO.class);

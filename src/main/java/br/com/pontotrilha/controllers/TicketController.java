@@ -81,7 +81,7 @@ public class TicketController {
 			MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA }, produces = {
 					MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML,
 					MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA })
-	@Operation(summary = "Add a new ticket", description = "Add a new ticket by passing a JSON, XML, or YML that represents an ticket!", tags = {
+	@Operation(summary = "Add a new ticket", description = "Add a new ticket!", tags = {
 			"Maps" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = TicketVO.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -96,13 +96,10 @@ public class TicketController {
 
 		var user = userRepository.findByUsername(username);
 
-		RedirectView redirectView = paymentController.checkout(eventEntity, user, quantity);
-
 		TicketVO ticket = new TicketVO();
 		ticket.setEvent(eventEntity);
 		ticket.setPurchasedByUser(user);
 		service.create(ticket);
-
-		return redirectView;
+		return new RedirectView(paymentController.checkout(eventEntity, user, quantity));
 	}
 }

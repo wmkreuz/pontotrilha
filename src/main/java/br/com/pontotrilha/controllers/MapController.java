@@ -69,7 +69,7 @@ public class MapController {
 			MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA }, produces = {
 					MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML,
 					MediaType.APPLICATION_OCTET_STREAM, MediaType.MULTIPART_FORM_DATA })
-	@Operation(summary = "Add a new map", description = "Add a new map by passing a JSON, XML, or YML that represents an map!", tags = {
+	@Operation(summary = "Add a new map", description = "Add a new map!", tags = {
 			"Maps" }, responses = {
 					@ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = MapVO.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -86,7 +86,7 @@ public class MapController {
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML }, produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 					MediaType.APPLICATION_YML })
-	@Operation(summary = "Updating a map", description = "Updating an map by passing a JSON, XML, or YML that represents an map!", tags = {
+	@Operation(summary = "Updating a map", description = "Updating an map!", tags = {
 			"Maps" }, responses = {
 					@ApiResponse(description = "Updated", responseCode = "200", content = @Content(schema = @Schema(implementation = MapVO.class))),
 					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
