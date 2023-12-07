@@ -77,7 +77,7 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 
 	private Long eventStatus;
 
-	private byte[] img;
+	private String img;
 
 	private String modality;
 
@@ -321,14 +321,6 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 		this.endOfSalesTime = endOfSalesTime;
 	}
 
-	public byte[] getImg() {
-		return img;
-	}
-
-	public void setImg(byte[] img) {
-		this.img = img;
-	}
-
 	public String getModality() {
 		return modality;
 	}
@@ -343,6 +335,14 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 
 	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	@Override
@@ -375,7 +375,7 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 		result = prime * result + ((minPurchaseQuantity == null) ? 0 : minPurchaseQuantity.hashCode());
 		result = prime * result + ((maxPurchaseQuantity == null) ? 0 : maxPurchaseQuantity.hashCode());
 		result = prime * result + ((eventStatus == null) ? 0 : eventStatus.hashCode());
-		result = prime * result + Arrays.hashCode(img);
+		result = prime * result + ((img == null) ? 0 : img.hashCode());
 		result = prime * result + ((modality == null) ? 0 : modality.hashCode());
 		result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
 		result = prime * result + ((createdByUser == null) ? 0 : createdByUser.hashCode());
@@ -522,7 +522,10 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 				return false;
 		} else if (!eventStatus.equals(other.eventStatus))
 			return false;
-		if (!Arrays.equals(img, other.img))
+		if (img == null) {
+			if (other.img != null)
+				return false;
+		} else if (!img.equals(other.img))
 			return false;
 		if (modality == null) {
 			if (other.modality != null)
@@ -546,4 +549,6 @@ public class EventVO extends RepresentationModel<EventVO> implements Serializabl
 			return false;
 		return true;
 	}
+
+	
 }

@@ -119,7 +119,7 @@ public class EventController {
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endOfSalesTime,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
 			@RequestParam Long eventStatus,
-			@RequestParam byte[] img,
+			@RequestParam String img,
 			@RequestParam String modality,
 			@RequestParam String difficulty,
 			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude)

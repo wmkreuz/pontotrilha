@@ -109,7 +109,7 @@ public class Event implements Serializable {
 	private Map map;
 
 	@Column(nullable = false)
-	private byte[] img;
+	private String img;
 
 	@Column(nullable = false)
 	private String modality;
@@ -344,14 +344,6 @@ public class Event implements Serializable {
 		this.endOfSalesTime = endOfSalesTime;
 	}
 
-	public byte[] getImg() {
-		return img;
-	}
-
-	public void setImg(byte[] img) {
-		this.img = img;
-	}
-
 	public String getModality() {
 		return modality;
 	}
@@ -366,6 +358,14 @@ public class Event implements Serializable {
 
 	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	@Override
@@ -400,7 +400,7 @@ public class Event implements Serializable {
 		result = prime * result + ((eventStatus == null) ? 0 : eventStatus.hashCode());
 		result = prime * result + ((createdByUser == null) ? 0 : createdByUser.hashCode());
 		result = prime * result + ((map == null) ? 0 : map.hashCode());
-		result = prime * result + Arrays.hashCode(img);
+		result = prime * result + ((img == null) ? 0 : img.hashCode());
 		result = prime * result + ((modality == null) ? 0 : modality.hashCode());
 		result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
 		return result;
@@ -555,7 +555,10 @@ public class Event implements Serializable {
 				return false;
 		} else if (!map.equals(other.map))
 			return false;
-		if (!Arrays.equals(img, other.img))
+		if (img == null) {
+			if (other.img != null)
+				return false;
+		} else if (!img.equals(other.img))
 			return false;
 		if (modality == null) {
 			if (other.modality != null)
@@ -569,4 +572,6 @@ public class Event implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 }

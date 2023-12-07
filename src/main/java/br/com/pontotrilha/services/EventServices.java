@@ -139,6 +139,9 @@ public class EventServices {
 			entity.setMinPurchaseQuantity(event.getMinPurchaseQuantity());
 			entity.setMaxPurchaseQuantity(event.getMaxPurchaseQuantity());
 			entity.setEventStatus(event.getEventStatus());
+			entity.setImg(event.getImg());
+			entity.setModality(event.getModality());
+			entity.setDifficulty(event.getDifficulty());
 		} else {
 			throw new AccessDeniedException("You do not have permission to edit this event.");
 		}
