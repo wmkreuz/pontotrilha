@@ -8,6 +8,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
+import br.com.pontotrilha.controllers.EventController;
 import br.com.pontotrilha.controllers.TicketController;
 import br.com.pontotrilha.data.vo.v1.TicketVO;
 import br.com.pontotrilha.exceptions.RequiredObjectIsNullException;
@@ -35,6 +36,17 @@ public class TicketServices {
 		return tickets;
 	}
 
+	public List<TicketVO> findAllUserTickets(String username) {
+
+		logger.info("Finding all user tickets!");
+
+		var tickets = DozerMapper.parseListObjects(repository.findAllUserTicketsByUsername(username), TicketVO.class);
+		tickets
+				.stream()
+				.forEach(p -> p.add(linkTo(methodOn(EventController.class).findById(p.getKey())).withSelfRel()));
+		return tickets;
+	}
+
 	public TicketVO findById(Long id) {
 
 		logger.info("Finding one ticket!");
@@ -46,7 +58,7 @@ public class TicketServices {
 		return vo;
 	}
 
-	public void create(TicketVO ticket) {
+	public TicketVO create(TicketVO ticket) {
 		if (ticket == null)
 			throw new RequiredObjectIsNullException();
 
@@ -54,5 +66,6 @@ public class TicketServices {
 		var entity = DozerMapper.parseObject(ticket, Ticket.class);
 		var vo = DozerMapper.parseObject(repository.save(entity), TicketVO.class);
 		vo.add(linkTo(methodOn(TicketController.class).findById(vo.getKey())).withSelfRel());
+		return vo;
 	}
 }

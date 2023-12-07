@@ -18,8 +18,6 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
 import com.stripe.model.Product;
-import com.stripe.param.ProductCreateParams;
-
 import br.com.pontotrilha.controllers.EventController;
 import br.com.pontotrilha.data.vo.v1.EventVO;
 import br.com.pontotrilha.exceptions.RequiredObjectIsNullException;
@@ -84,36 +82,16 @@ public class EventServices {
 
 		Stripe.apiKey = stripeApiKey;
 
-		/*ProductCreateParams params = ProductCreateParams.builder()
-				.setName(event.getEventName())
-				.setDefaultPriceData(
-						ProductCreateParams.DefaultPriceData.builder()
-								.setUnitAmount((new Double(event.getTickePrice() * 100)).longValue())
-								.setCurrency("brl")
-								.setRecurring(
-										ProductCreateParams.DefaultPriceData.Recurring.builder()
-												.setInterval(
-														ProductCreateParams.DefaultPriceData.Recurring.Interval.MONTH)
-												.build())
-								.build())
-				.addExpand("default_price")
-				.build();
-
-		Product product = Product.create(params);*/
-
-		// Crie um produto
-            Map<String, Object> productParams = new HashMap<>();
-            productParams.put("name", event.getEventName());
-            productParams.put("type", "good"); // Pode ser "good", "service" ou "sku"
-            Product product = Product.create(productParams);
-
-            // Crie um preço associado ao produto
-            Map<String, Object> priceParams = new HashMap<>();
-            priceParams.put("unit_amount", (new Double(event.getTickePrice() * 100)).longValue()); // O valor deve ser em centavos
-            priceParams.put("currency", "brl");
-            priceParams.put("product", product.getId());
-            Price price = Price.create(priceParams);
-
+        Map<String, Object> productParams = new HashMap<>();
+        productParams.put("name", event.getEventName());
+        productParams.put("type", "good");
+        Product product = Product.create(productParams);
+		
+        Map<String, Object> priceParams = new HashMap<>();
+        priceParams.put("unit_amount", (new Double(event.getTickePrice() * 100)).longValue()); // O valor deve ser em centavos
+        priceParams.put("currency", "brl");
+        priceParams.put("product", product.getId());
+        Price price = Price.create(priceParams);
 
 		entity.setTickePriceStripe(price.getId());
 

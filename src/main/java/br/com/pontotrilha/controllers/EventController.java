@@ -119,6 +119,9 @@ public class EventController {
 			@RequestParam @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endOfSalesTime,
 			@RequestParam Long minPurchaseQuantity, @RequestParam Long maxPurchaseQuantity,
 			@RequestParam Long eventStatus,
+			@RequestParam byte[] img,
+			@RequestParam String modality,
+			@RequestParam String difficulty,
 			@RequestParam String map_description, @RequestParam String latitude, @RequestParam String longitude)
 			throws StripeException {
 		MapVO map = new MapVO();
@@ -156,6 +159,9 @@ public class EventController {
 		event.setMaxPurchaseQuantity(maxPurchaseQuantity);
 		event.setEventStatus(eventStatus);
 		event.setMap(mapEntity);
+		event.setImg(img);
+		event.setModality(modality);
+		event.setDifficulty(difficulty);
 		return service.create(event);
 	}
 

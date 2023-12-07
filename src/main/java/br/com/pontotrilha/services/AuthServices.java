@@ -101,10 +101,6 @@ public class AuthServices {
 
 		}
 
-		/*userSave = repository.findByUsername(user.getUserName());
-
-		return ResponseEntity.ok(userSave);*/
-
 		SignupVO vo = new SignupVO(userSave.getId(), userSave.getUserName(), userSave.getFullName());
     	return ResponseEntity.status(HttpStatus.CREATED).body(vo);
 

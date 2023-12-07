@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentLink;
+import com.stripe.param.PaymentLinkCreateParams;
 
 import br.com.pontotrilha.data.vo.v1.EventVO;
 import br.com.pontotrilha.data.vo.v1.TicketVO;
@@ -62,6 +62,23 @@ public class TicketController {
 	}
 
 	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
+	@GetMapping(value = "/usertickets/{username}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_YML })
+	@Operation(summary = "Find all user tickets", description = "Find all user tickets", tags = {
+			"Tickets" }, responses = {
+					@ApiResponse(description = "Success", responseCode = "200", content = {
+							@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TicketVO.class)))
+					}),
+					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+					@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+			})
+	public List<TicketVO> findAllUserTickets(@PathVariable(value = "username") String username) {
+		return service.findAllUserTickets(username);
+	}
+
+	@CrossOrigin(origins = { "http://localhost:8080", "https://pontotrilha.com.br" })
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML })
 	@Operation(summary = "Find an ticket", description = "Find an ticket", tags = { "Tickets" }, responses = {
@@ -88,7 +105,7 @@ public class TicketController {
 					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
 					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 			})
-	public RedirectView create(@RequestParam String username, @RequestParam Long eventId, @RequestParam Long quantity)
+	public TicketVO create(@RequestParam String username, @RequestParam Long eventId, @RequestParam Long quantity)
 			throws StripeException {
 
 		EventVO eventVO = eventServices.findById(eventId);
@@ -96,10 +113,21 @@ public class TicketController {
 
 		var user = userRepository.findByUsername(username);
 
+		PaymentLinkCreateParams params = PaymentLinkCreateParams.builder()
+				.addLineItem(
+						PaymentLinkCreateParams.LineItem.builder()
+								.setPrice(eventEntity.getTickePriceStripe())
+								.setQuantity(quantity)
+								.build())
+				.build();
+
+		PaymentLink paymentLink = PaymentLink.create(params);
+
 		TicketVO ticket = new TicketVO();
 		ticket.setEvent(eventEntity);
 		ticket.setPurchasedByUser(user);
-		service.create(ticket);
-		return new RedirectView(paymentController.checkout(eventEntity, user, quantity));
+		ticket.setUrlPayment(paymentLink.getUrl());
+		
+		return service.create(ticket);
 	}
 }

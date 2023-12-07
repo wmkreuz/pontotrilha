@@ -3,6 +3,8 @@ package br.com.pontotrilha.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -105,6 +107,15 @@ public class Event implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "map_id", referencedColumnName = "id")
 	private Map map;
+
+	@Column(nullable = false)
+	private byte[] img;
+
+	@Column(nullable = false)
+	private String modality;
+
+	@Column(nullable = false)
+	private String difficulty;
 
 	public Event() {
 	}
@@ -333,6 +344,30 @@ public class Event implements Serializable {
 		this.endOfSalesTime = endOfSalesTime;
 	}
 
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+
+	public String getModality() {
+		return modality;
+	}
+
+	public void setModality(String modality) {
+		this.modality = modality;
+	}
+
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -365,6 +400,9 @@ public class Event implements Serializable {
 		result = prime * result + ((eventStatus == null) ? 0 : eventStatus.hashCode());
 		result = prime * result + ((createdByUser == null) ? 0 : createdByUser.hashCode());
 		result = prime * result + ((map == null) ? 0 : map.hashCode());
+		result = prime * result + Arrays.hashCode(img);
+		result = prime * result + ((modality == null) ? 0 : modality.hashCode());
+		result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
 		return result;
 	}
 
@@ -516,6 +554,18 @@ public class Event implements Serializable {
 			if (other.map != null)
 				return false;
 		} else if (!map.equals(other.map))
+			return false;
+		if (!Arrays.equals(img, other.img))
+			return false;
+		if (modality == null) {
+			if (other.modality != null)
+				return false;
+		} else if (!modality.equals(other.modality))
+			return false;
+		if (difficulty == null) {
+			if (other.difficulty != null)
+				return false;
+		} else if (!difficulty.equals(other.difficulty))
 			return false;
 		return true;
 	}

@@ -40,7 +40,6 @@ br\com\pontotrilha\security\jwt\JwtTokenFilter.class
 br\com\pontotrilha\services\StripeEventJobService.class
 br\com\pontotrilha\repositories\UserPermissionRepository.class
 br\com\pontotrilha\services\MapServices.class
-br\com\pontotrilha\util\GpxParser.class
 br\com\pontotrilha\config\WebConfig.class
 br\com\pontotrilha\controllers\EventController.class
 br\com\pontotrilha\config\OpenApiConfig.class

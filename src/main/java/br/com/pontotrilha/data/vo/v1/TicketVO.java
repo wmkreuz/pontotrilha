@@ -12,7 +12,7 @@ import com.github.dozermapper.core.Mapping;
 import br.com.pontotrilha.model.Event;
 import br.com.pontotrilha.model.User;
 
-@JsonPropertyOrder({ "id",  "eventId", "purchasedByUserId" })
+@JsonPropertyOrder({ "id",  "eventId", "purchasedByUserId", "urlPayment" })
 public class TicketVO extends RepresentationModel<TicketVO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +26,8 @@ public class TicketVO extends RepresentationModel<TicketVO> implements Serializa
 
 	@JsonIgnore
 	private User purchasedByUser;
+
+	private String urlPayment;
 
 	public TicketVO() {
 	}
@@ -66,6 +68,14 @@ public class TicketVO extends RepresentationModel<TicketVO> implements Serializa
 		this.purchasedByUser = purchasedByUser;
 	}
 
+	public String getUrlPayment() {
+		return urlPayment;
+	}
+
+	public void setUrlPayment(String urlPayment) {
+		this.urlPayment = urlPayment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,6 +83,7 @@ public class TicketVO extends RepresentationModel<TicketVO> implements Serializa
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((purchasedByUser == null) ? 0 : purchasedByUser.hashCode());
+		result = prime * result + ((urlPayment == null) ? 0 : urlPayment.hashCode());
 		return result;
 	}
 
@@ -100,8 +111,13 @@ public class TicketVO extends RepresentationModel<TicketVO> implements Serializa
 				return false;
 		} else if (!purchasedByUser.equals(other.purchasedByUser))
 			return false;
+		if (urlPayment == null) {
+			if (other.urlPayment != null)
+				return false;
+		} else if (!urlPayment.equals(other.urlPayment))
+			return false;
 		return true;
 	}
 
-		
+			
 }

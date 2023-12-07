@@ -2,6 +2,7 @@ package br.com.pontotrilha.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,9 @@ public class Ticket implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "purchased_by_user", referencedColumnName = "id")
 	private User purchasedByUser;
+
+	@Column(name = "url_payment", nullable = false, length = 255)
+	private String urlPayment;
 
 	public Long getId() {
 		return id;
@@ -54,6 +58,14 @@ public class Ticket implements Serializable {
 		this.purchasedByUser = purchasedByUser;
 	}
 
+	public String getUrlPayment() {
+		return urlPayment;
+	}
+
+	public void setUrlPayment(String urlPayment) {
+		this.urlPayment = urlPayment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -61,6 +73,7 @@ public class Ticket implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((purchasedByUser == null) ? 0 : purchasedByUser.hashCode());
+		result = prime * result + ((urlPayment == null) ? 0 : urlPayment.hashCode());
 		return result;
 	}
 
@@ -88,8 +101,11 @@ public class Ticket implements Serializable {
 				return false;
 		} else if (!purchasedByUser.equals(other.purchasedByUser))
 			return false;
+		if (urlPayment == null) {
+			if (other.urlPayment != null)
+				return false;
+		} else if (!urlPayment.equals(other.urlPayment))
+			return false;
 		return true;
 	}
-
-	
 }

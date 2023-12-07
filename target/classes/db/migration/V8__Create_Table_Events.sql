@@ -27,6 +27,9 @@ CREATE TABLE events (
     event_status BIGINT NOT NULL,
     created_by_user_id BIGINT REFERENCES users(id),
     map_id BIGINT REFERENCES maps(id),
+    img OID,
+    modality VARCHAR(255) NOT NULL,
+    difficulty VARCHAR(255) NOT NULL, 
     CONSTRAINT fk_created_by_user FOREIGN KEY (created_by_user_id) REFERENCES users(id),
     CONSTRAINT fk_map FOREIGN KEY (map_id) REFERENCES maps(id)
 );
